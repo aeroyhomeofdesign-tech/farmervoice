@@ -91,19 +91,19 @@ const saveKey = () => {
       });
 
       // Actually use Gemini API
-      const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}` ,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: [{ parts: [{ text: question }] }],
-          }),
-        }
-      );
 
-      const data = await geminiRes.json();
+      const geminiRes = await fetch(
+    const geminiRes = await fetch("/api/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    question,
+    apiKey,
+    systemPrompt: SYSTEM_PROMPT,
+  }),
+});
+
+const data = await geminiRes.json();
       if (data.error) {
         setError(data.error.message || "API error. Check your key.");
       } else {
