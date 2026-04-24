@@ -58,16 +58,18 @@ export default function FarmerVoice() {
   const [query, setQuery] = useState("");
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [apiKey, setApiKey] = useState("");
-  const [apiSaved, setApiSaved] = useState(false);
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("fv_key") || "");
+const [apiSaved, setApiSaved] = useState(() => !!localStorage.getItem("fv_key"));
+const [tempKey, setTempKey] = useState(() => localStorage.getItem("fv_key") || "");
   const [tempKey, setTempKey] = useState("");
   const [error, setError] = useState(null);
   const t = translations[lang];
 
-  const saveKey = () => {
-    setApiKey(tempKey);
-    setApiSaved(true);
-  };
+const saveKey = () => {
+  setApiKey(tempKey);
+  setApiSaved(true);
+  localStorage.setItem("fv_key", tempKey);
+};
 
   const ask = async (q) => {
     const question = q || query;
