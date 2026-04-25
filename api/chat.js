@@ -5,7 +5,8 @@ export default async function handler(req, res) {
   
   if (req.method === 'OPTIONS') return res.status(200).end()
 
-  const { question, apiKey } = req.body
+  const { question, systemPrompt } = req.body
+  const apiKey = AIzaSyD_gCS7Vv5lW-1V8B8w9WYEMmkRcmnWE0A
 
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
@@ -13,7 +14,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        system_instruction: { parts: [{ text: req.body.systemPrompt }] },
+        system_instruction: { parts: [{ text: systemPrompt }] },
         contents: [{ parts: [{ text: question }] }]
       })
     }
